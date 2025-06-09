@@ -1,0 +1,61 @@
+---
+title: "Setting up a sanction check rule"
+description: "Suggest Edits"
+---
+
+## Rule creation
+
+Create a sanction check configuration for a scenario from the rules page. A given scenario can have at most one sanction check configuration.
+
+<Frame caption="create a new sanction check rule">
+  <img src="/images/docs/cd946473cd289482f609da72f544eea2403f05b029e36a5e5da2a289903c82b4-Capture_decran_2025-02-19_a_16.04.18.png" />
+</Frame>
+
+## Rule configuration
+
+### Global organization configuration of sanction checks
+
+* similarity matching threshold: the minimum similarity score (as a %) for an entity to be considered a possible match on a sanction list. The default value is 70% similarity score, which we believe is a reasonable base value in most cases. Higher values will result in less hits, at the risk of missing some true positives.
+* max number of hits to consider: maximum number of hits for a sanction check review. If a sanction check has more possible hits than this, the search must be refined before the sanction check can be marked as "not a hit". See the [refine](/docs/screening-refine) page. The default value is 30.
+
+The organization sanction check settings are configured by an administrator in the settings/scenarios tab.
+
+### Specific rule configuration
+
+The body of a sanction check rule is configured a bit differently from a regular scenario rule. It expects the following settings:
+
+| configuration                 | format                                                                                                                               | effect                                                                                                                                                                            |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **forced outcome**            | **review**, **block\_and\_review**, **decline**                                                                                      | If the sanction check has at least one possible match, it forces the outcome of the decision. This overrides any outcome determined from the aggregated score of the other rules. |
+| **trigger condition**         | A trigger condition formula, in the same format as the trigger condition defined at the scenario level.                              | Used to only perform the sanction check on payloads triggering the scenario that pass certain conditions.                                                                         |
+| **field selectors**           | Select fields from the payload or ingested data to be used for the sanctioned entity search. Similar input to what is used in rules. | See details below.                                                                                                                                                                |
+| **set of lists to filter on** | Consolidated lists from [Opensanctions](https://www.opensanctions.org/datasets/), grouped by geographic region for convenience.      | Selects the sanction lists that are taken into account for screening in the scenario.                                                                                             |
+
+#### Details on field selection
+
+Three types of input can be configured to select the actual data that is used for entity search.
+
+* **transaction label**: expects a field from the payload, or a value from ingested data related to the payload
+* **counterparty name**: can use one or several (concatenated together) values from the payload, or values from ingested data related to the payload
+* **counterparty unique identifier**: not directly used for matching, but allows to define a unique identifier for an entity that is being screened on, in order to whitelist a pair of \[counterparty identifier - listed entity] and reduce recurring false positives. Typically, the value would be an account number, IBAN or crypto wallet hash.
+
+One at least of transaction label and counterparty name must be configured for the rule to work. The counterparty unique identifier is optional, but recommended to limit false positives in the long run.
+
+<Frame caption="configuration of the trigger condition and counterparty identifier selection">
+  <img src="/images/docs/60db8bd7f06eea404cf84db4b2dbc4b7192841b003f5f0675899f8faf4c4d217-Capture_decran_2025-02-20_a_10.41.43.png" />
+</Frame>
+
+<Frame caption="configuration of the matching field selection and sanction lists to be used">
+  <img src="/images/docs/308896b04947a7a564b291559bf082605fa18b2c46cb344a66186f3de99e94f5-Capture_decran_2025-02-20_a_10.41.49.png" />
+</Frame>
+
+***
+
+* [Table of Contents](#)
+
+* * [Rule creation](#rule-creation)
+
+  * [Rule configuration](#rule-configuration)
+
+    * [Global organization configuration of sanction checks](#global-organization-configuration-of-sanction-checks)
+    * [Specific rule configuration](#specific-rule-configuration)

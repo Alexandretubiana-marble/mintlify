@@ -1,0 +1,163 @@
+---
+title: "Overview"
+description: "Suggest Edits"
+---
+
+# Introduction
+
+The **Case Manager** is designed to provide analysts with a streamlined, focused, and efficient workspace for investigating fraud cases. With dynamic action panels, context-aware views, and powerful data exploration tools, it minimizes manual effort, enhances compliance, and lays the foundation for a more automated case management.
+
+<Info />
+
+***
+
+# Key Features
+
+The Case Manager offers many features designed to streamline your investigations and reduce manual effort. The image below highlights the main components of the interface — each of which is described in detail in the sections that follow.
+
+![](/images/docs/ec9eb85557931ec6c2fb6f2c7cc728933d2bc6ed5f41a40de73ebcbf923e976d-New_Case_Manager.png)
+
+## Escalation
+
+Escalate cases to a designated team inbox, ensuring seamless collaboration and proper routing.
+
+* Define target inboxes in your [Inboxes Settings](/docs/configuration#inboxes)
+* All escalations are traceable and auditable
+
+***
+
+## Assignment
+
+Case ownership is designed to be intuitive:
+
+* Click "Assign to myself" to set yourself as the owner of the case
+* A case is automatically assigned to you when you take any action on it
+* You can manually reassign a case to another team member when needed
+
+***
+
+## Case Statuses
+
+Track and manage case progress with clear statuses:
+
+* **Pending** – not yet assigned
+* **In Progress** – currently under review
+* **Closed** – investigation completed
+
+***
+
+## Detection Feedback
+
+When closing a case, you will be able to chose one of the following outcome:
+
+* **False Positive**
+* **Valuable Alert**
+* **Risk Confirmed**
+
+These labels could be used to train your own ML algorithm for example.
+
+***
+
+## Case tag
+
+Add a tag to the case to organize your investigations. You will need to create the tags you want from the [Tags settings](/docs/configuration#tags), and can then modify its name or color at any time.
+
+***
+
+## Next Unassigned Case
+
+Speed up your workflow with a **one-click shortcut** to the oldest unassigned case, allowing rapid triage without interruption.
+
+***
+
+## Case Snoozing
+
+Postpone a case for later review with snoozing functionality: just specify a future reactivation date and the case will reappear at that time.
+
+This is ideal for reminders or investigations requiring external input.
+
+***
+
+## Investigation Panel
+
+See everything that happened on the case since its creation:
+
+* Browse the full event history
+* Filter by the event types that matter to you
+
+***
+
+## Alerts Table
+
+Access every alert tied to a case:
+
+* See key details available at a glance
+* Detection rules sorted by relevance (highest score first)
+* Expand panels for full alert insight, as you can see below, by clicking on "Open" when hovering an alert
+
+<Frame caption="Access rules details in the right panel">
+  <img src="/images/docs/38f9d27670f43844a0cf18962b81e3ccd29c9b11459a1b59ee6848981dc3f5a4-image.png" />
+</Frame>
+
+***
+
+## Rule Snoozing
+
+Quickly snooze detection rules directly from the case manager to deactivate noisy rules temporarily. See more details in [Rule snoozes](/docs/rule-snoozes).
+
+***
+
+## Data Exploration
+
+Conduct deep investigations with access to all objects linked to a customer or case:
+
+* Get information about the object's pivot, and this pivot's pivot
+* Browse transactions, accounts, users, or any data related to the triggering object
+
+<Frame caption="Explore data related to the triggering object">
+  <img src="/images/docs/02bc8102a9b92c88b5bdb7db4afa66e7a569cfb877e59418448c46b99b7d69fb-image.png" />
+</Frame>
+
+***
+
+## Past Alerts
+
+Access **alert history** for the same pivot object at the bottom of the right panel:
+
+* View previous alert statuses
+* Identify recurring risk patterns and context
+
+***
+
+## My Inbox
+
+Click on **My inbox** on top your inboxes list to access your **dedicated personal inbox** that consolidates all cases assigned to you — regardless of their original shared inbox.
+
+* View your investigations in one place
+* Cases are prioritized by date and status for efficient triage
+
+<Frame caption="Select &#x22;My inbox&#x22; to access all cases assigned to you">
+  <img src="/images/docs/91efe23f016fcd8d9555f12ec44d9fc465ebe20aee45afd403668fb4d76fdb43-My_inbox.png" />
+</Frame>
+
+***
+
+* [Table of Contents](#)
+
+* * [Introduction](#introduction)
+
+  * [Key Features](#key-features)
+
+    * [Escalation](#escalation)
+    * [Assignment](#assignment)
+    * [Case Statuses](#case-statuses)
+    * [Detection Feedback](#detection-feedback)
+    * [Case tag](#case-tag)
+    * [Next Unassigned Case](#next-unassigned-case)
+    * [Case Snoozing](#case-snoozing)
+    * [Investigation Panel](#investigation-panel)
+    * [Alerts Table](#alerts-table)
+    * [Rule Snoozing](#rule-snoozing)
+    * [Data Exploration](#data-exploration)
+    * [Past Alerts](#past-alerts)
+    * [My Inbox](#my-inbox)

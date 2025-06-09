@@ -1,0 +1,164 @@
+---
+title: "Receiving webhooks"
+description: "Suggest Edits"
+---
+
+# Validating webhooks
+
+## Sender IP
+
+Our webhooks are sent from the following IP address
+
+```
+54.216.11.145
+```
+
+## Verifying the signature
+
+Our webhooks are signed, to ensure no one other than Marble can send webhooks to your (public) webhooks endpoint. You must absolutely verify the signature, using the endpoint secret that is returned when you created the endpoint, before you accept an incoming webhook.
+
+### Using a client library
+
+You can use one of the following client libraries to verify the webhook signature:
+
+* [go](https://github.com/frain-dev/convoy-go)
+* [ruby](https://github.com/frain-dev/convoy.rb)
+* [python](https://github.com/frain-dev/convoy-python)
+* [javascript](https://github.com/frain-dev/convoy.js)
+* [php](https://github.com/frain-dev/convoy-php)
+
+<CodeGroup>
+  ```go Go
+  import (
+      "io"
+      "net/http"
+      convoy "github.com/frain-dev/convoy-go/v2"
+  )
+
+  func HandleWebhook(w http.ResponseWriter, r *http.Request) {
+      body, err := io.ReadAll(r.Body)
+      if err != nil {
+          w.WriteHeader(400)
+      }
+
+      webhook := convoy.NewWebhook(
+          convoy.WebhookOpts{
+              Hash: "SHA256",
+              Secret: os.Getenv("WEBHOOKS_ENDPOINT_SECRET"),
+              Payload: body,
+              Encoding: "base64",
+              SigHeader: "X-Convoy-Signature",
+              Tolerance: 3600 * time.Second,
+          }
+      )
+      err = webhook.VerifyRequest(r)
+      if err != nil {
+          w.WriteHeader(400)
+      }
+
+      // write webhook to queue.
+      w.WriteHeader(200)
+  }
+  ```
+
+  ```javascript javascript
+  import { Webhook } from 'convoy.js';
+
+  // Using Express
+  app.post("/my/webhook/url", function(req, res) {
+      // verfiy an advanced signature
+      const webhook = new Webhook({
+          header: 't=2048976161,v1=afdb90313acfa15a3fc425755ae651a204947710315bb2a90bccaa87fce88998,v1=fLBDCBUiX5iIs0L5zfNq45h23EkX1HAMpFF+2lHrnes=',
+          payload: { email: '[email protected]' },
+          secret: '8IX9njirDG',
+          hash: 'sha256',
+          encoding: 'base64',
+          tolerance: 3600
+      });
+
+      if (webhook.verify()) {
+          // Retrieve the request's body
+          const event = req.body;
+          // Do something with event
+      }
+      res.send(200);
+  });
+  ```
+
+  ```ruby Ruby
+  class WebhookController < ApplicationController
+    skip_before_action :authorize_request, only: :webhook
+
+    def webhook
+      body = request.body.read
+      sig_header = request.headers['X-Convoy-Signature']
+
+      begin
+        convoy = Convoy::Webhook.new(secret = endpoint_secret, hash: "SHA256", encoding: "base64")
+        match = convoy.verify body, sig_header
+        raise Convoy::SignatureVerificationError, 'failed to verify signature' unless match
+      end
+
+      payload = JSON.parse(body)
+      event_type = payload['event_type']
+
+      # Handle the event
+      case event_type
+      when 'event.type'
+        # write event to a queue for processing.
+      else
+        puts "Unhandled webhook event type: #{event_type}"
+      end
+
+    rescue JSON::ParserError,
+           Convoy::SignatureVerificationError => e
+      render status: 400, json: nil and return
+    end
+
+    private 
+
+    def endpoint_secret
+      ENV['WEBHOOK_ENDPOINT_SECRET']
+    end
+  end
+  ```
+</CodeGroup>
+
+You should use `SHA256` as the hash method, `base64` encoding, and your endpoint's secret (see the "[Setting up the webhooks](/docs/setting-up-the-webhooks)" section).
+
+### Verifying manually
+
+Alternatively, you can perform the verification "manually". We refer you to the [documentation of Convoy](https://docs.getconvoy.io/product-manual/signatures#verifying-signatures-manually), the service we use for sending webhooks.
+
+## Verify the timestamp
+
+An optional security is to verify that the webhook timestamp (present in the header) is within a certain tolerance window from the current timestamp. This is used to protect you against a replay attack, that is to say an attack where a malicious third party intercepts webhooks destined to you and resends them at a later date.
+
+You should also try to make your webhooks handling idempotent, but by using timestamp verification you do not need to perform any database reads to reject an old webhook.
+
+Please note that the timestamp included in the signature represents the time when the webhook was sent (generated for each attempt), not the time of the original trigger event (which can be found in the payload body).
+
+## Rotating the secret
+
+We allow a seamless rotation of the endpoint's secret. In this process, a new secret is created, and your consumer should test that any of the signatures present in the header match the computed signature (this is done automatically by the client libraries). The old secret remains valid for a transit period (that can be configured).
+
+The app interface for secret rotation is not yet implemented, but will follow soon.
+
+# Retries
+
+If you respond with any other status code than 2XX, or if you respond later than the configured endpoint timeout, the webhook will be retried. Webhooks will be retried up to 10 times.
+
+This is another reason for implementing idempotent handling of the webhooks, because a given webhook can be delivered more than once.
+
+***
+
+* [Table of Contents](#)
+
+* * [Validating webhooks](#validating-webhooks)
+
+    * [Sender IP](#sender-ip)
+    * [Verifying the signature](#verifying-the-signature)
+    * [Verify the timestamp](#verify-the-timestamp)
+    * [Rotating the secret](#rotating-the-secret)
+
+  * [Retries](#retries)

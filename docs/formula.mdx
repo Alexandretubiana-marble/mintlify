@@ -1,0 +1,72 @@
+---
+title: "Formula"
+description: "Multiple operations evaluating to a boolean"
+---
+
+[Suggest Edits](/edit/formula)
+
+# Definition
+
+The formula is at the heart of the product. Users define formulas to specify the core of a scenario. Formulas are utilized in various areas, such as:
+
+* Trigger conditions
+* Rule creation
+* Variable filters
+
+A formula is built using [Operand](/docs/operand-picker) and [Operator](/docs/operator) concepts.
+
+# How to create a valid formula
+
+A formula is a set of conditions, each defined by a valid operation that evaluates to a boolean value. Formula builders allow you to:
+
+* Add conditions
+* Remove existing conditions
+* Nest conditions
+
+<Frame caption="Condition builder interface">
+  <img src="/images/docs/f34fcf2-image.png" />
+</Frame>
+
+You can define formulas in multiple places, but the most important ones are the trigger and rule formulas.
+
+## Trigger
+
+<Info />
+
+A trigger is a set of conditions. You can view the trigger as a logical AND operation that combines the results of each individual condition.
+
+In this example, the second condition is invalid: the operation evaluates to a number which is not a boolean.
+
+<Frame caption="Example of trigger formula">
+  <img src="/images/docs/cf8243f-image.png" />
+</Frame>
+
+## Rule
+
+<Info />
+
+A rule is a set of group, each defined by a set of conditions. You can view the rule as a logical OR operation, each OR operand being a AND logical operation.
+
+In this example, the second block is incomplete (require at least one condition). In practice, you need to delete the second block or define a valid condition.
+
+<Frame caption="Example of rule formula">
+  <img src="/images/docs/80c3649-image.png" />
+</Frame>
+
+***
+
+What’s Next
+
+To build a formula, you need to create conditions. Creating conditions involves combining operands and operators
+
+* [Operand](/docs/operand-picker)
+* [Operator](/docs/operator)
+
+* [Table of Contents](#)
+
+* * [Definition](#definition)
+
+  * [How to create a valid formula](#how-to-create-a-valid-formula)
+
+    * [Trigger](#trigger)
+    * [Rule](#rule)

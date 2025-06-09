@@ -1,0 +1,32 @@
+---
+title: "Timestamp comparison"
+description: "Suggest Edits"
+---
+
+# Operators
+
+Timestamps represent the absolute position in time of two events. They can be compared to check if a timestamp is equal to another, greater (or equal) than another, or lesser (or equal) than another.
+
+Concretely, timestamp comparison operations involve using the usual comparison operators (like `<`, `>`) to determine the relationship between two values. For example:
+
+* `timestamp_1 < timestamp_2` : True if `timestamp_1` is before `timestamp_2`.
+* `timestamp_1 > timestamp_2` : True if `timestamp_1` is after `timestamp_2`.
+
+Valid conditions must evaluate to `true` or `false`, so you cannot add or subtract timestamp values (`timestamp_1 - timestamp_2` is not valid), though you can use [the date function](/docs/now-copy) to shift a timestamp by a duration.
+
+# Examples
+
+1. Check if `updated_at` falls within the past 7 days
+
+<Frame caption="falls within the past 7 days">
+  <img src="/images/docs/b4b8655-image.png" />
+
+  `updated_at`
+</Frame>
+
+***
+
+* [Table of Contents](#)
+
+* * [Operators](#operators)
+  * [Examples](#examples)

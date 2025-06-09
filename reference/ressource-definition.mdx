@@ -1,0 +1,77 @@
+---
+title: "The decision object"
+description: "A  is the main ressource to interact with."
+---
+
+It contains an `outcome`, as well as details (`scenario`, `score`, `rules`) that you can use to trigger specific actions in your application.
+
+| Attribute                                      | Description                                                                                                                       |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **id***string*                                 | ID of the decision.                                                                                                               |
+| **app\_link***url*                             | Link to the app with the detail of the decision, including intermediate values.                                                   |
+| **created\_at***timestamp*                     | Time at which the object was created (received by Marble, before executing scenarios). Measured in seconds since the Unix epoch.  |
+| **trigger\_object***object(trigger\_object)*   | Trigger object data, for example a full transaction.                                                                              |
+| **trigger\_object\_type***string*              | Trigger object type, for example `transaction`.                                                                                   |
+| **outcome***ENUM(string)*                      | `approve`, `decline`, `review`, `null` `null` if the scenario could not compute a score.                                          |
+| **scenario***object(scenario)*                 | Scenario that was executed. See [scenario](#scenario).                                                                            |
+| **rules***array\[rule]*                        | Array of rules executed in the scenario. See [rule](#rule).                                                                       |
+| **score***int*                                 | Score computed by the scenario (sum of all `score_modifier` of rules that evaluated to`true`). Only present if `outcome != null`. |
+| **scheduled\_scenario\_execution\_id***string* | ID of the scheduled scenario execution. Only present if the decision was created by a scheduled scenario execution                |
+
+### scenario
+
+***
+
+The `scenario` shows details about the scenario executed.
+
+This is mainly useful to display its information in a third-party system, like a case manager.
+
+| Attribute                           | Description                                                    |
+| ----------------------------------- | -------------------------------------------------------------- |
+| **id***string*                      | ID of the scenario.                                            |
+| **name***string*                    | Name of the scenario.                                          |
+| **description***string*             | Description of the scenario.                                   |
+| **scenario\_iteration\_id***string* | Unique identifier of the scenario version use in this decision |
+| **version***string*                 | Version of the scenario.                                       |
+
+### rule
+
+***
+
+The `rule` provides all the detail of the rules that were computed to produce an outcome.
+
+This is mainly useful to display its information in a third-party system, like a case manager.
+
+| Attribute                | Description                                                 |
+| ------------------------ | ----------------------------------------------------------- |
+| **name***string*         | Name of the rule.                                           |
+| **description***string*  | Description of the rule.                                    |
+| **score\_modifier***int* | If the rule is true, this is added to the scenario's score. |
+| **result***bool*         | Did the rule evaluate to true or false ?                    |
+| **rule\_id***string*     | Unique identifier of the rule version used in this decision |
+| **error***object*        | Error when executing the rule. See [error](#error).         |
+
+### error
+
+***
+
+The `error` provides more context when a scenario was not able to produce an outcome, or a rule was not able to produce a score.
+
+Note that `error == null` if Marble was able to produce an outcome (ie when `decision.outcome != null`).
+
+| Attribute           | Description                   |
+| ------------------- | ----------------------------- |
+| **code***int*       | Machine-readable error code.  |
+| **message***string* | Human-readable error message. |
+
+Possible errors on the `decision` object:
+
+| code | message                                                            |
+| ---- | ------------------------------------------------------------------ |
+| 100  | Scenario was not able to compute a score because all rules failed. |
+
+Possible errors on the `rule` object:
+
+| code | message                                             |
+| ---- | --------------------------------------------------- |
+| 200  | A field (\{field name}) in rule is empty or missing |

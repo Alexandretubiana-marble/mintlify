@@ -1,0 +1,24 @@
+---
+title: "Overview"
+description: "Suspend the process until a manual review is completed to either approve or decline the decision."
+---
+
+[Suggest Edits](/edit/introduction-8)
+
+Marble is a generalist decision engine, that can be adapted to serve different business use cases: synchronous authorization of operations, asynchronous review of accounts following events on the account, periodic account reviews, etc.
+
+<Frame caption="Asynchronous or blocking review of a payment, according to the decision outcome">
+  <img src="/images/docs/81aa7724ad513c2286b07ca5ed6bd8826f641541d0d00bb6d83b875e9236e7b1-decision_flows.png" />
+</Frame>
+
+In some use cases, such as the blocking review of bank transfers, operators of the decision engine may want to manually review a decision in the case manager, before triggering a side effect in their systems (e.g. canceling or unblocking a pending bank transfer).
+
+Possible use cases include:
+
+* blocking outgoing payments until background checks have been performed, e.g. sanctions checks
+* putting incoming payments on hold before releasing funds, pending investigation
+* locking user accounts for a period of time, following trigger events
+
+or any other workflow that requires the automatic status update of entities on the customer side following a decision in the Marble case manager.
+
+The following page focuses on how to set up and use a scenario with a blocking review step, using the Marble case manager.

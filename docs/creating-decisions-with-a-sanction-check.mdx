@@ -1,0 +1,24 @@
+---
+title: "Creating decisions with a sanction check"
+description: "Suggest Edits"
+---
+
+Decisions are created in just the same way on a scenario that includes a sanction check, except for the aspects discussed below.
+
+## Error cases
+
+Below are some caveats to keep in mind:
+
+* If all the values passed to the sanction screening (counterparty name and transaction label, derived from the payload values and/or from ingested data) are either *null* or empty strings, then the sanction screening has an error status but the decision is still created.
+* If the external dependency (Opensanctions managed API or self-hosted Opensanctions API) is not reachable, or fails to respond with a 200 status code, the decision is not created and the API returns an error code.
+
+## Latency considerations
+
+A decision with a sanction check must make a request to an API that may take a few hundred milliseconds to respond, with little scope for optimization. This gives a baseline for the average execution time of scenarios that include a sanction check.
+
+***
+
+* [Table of Contents](#)
+
+* * [Error cases](#error-cases)
+  * [Latency considerations](#latency-considerations)

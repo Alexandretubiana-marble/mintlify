@@ -1,0 +1,78 @@
+---
+title: "Create links between tables"
+description: "How to create links between tables. How they are used. Things to keep in mind."
+---
+
+[Suggest Edits](/edit/create-links-between-tables)
+
+## The links structure
+
+There is structure to your data, and that is represented in the Marble data model.
+
+Generally speaking, business entities are linked to one another, in several possible ways (`1-1`, `N-1`, `N-N`, `1-N`...). You can model some of this. In fact need to if you want to, for instance, access the ingested value from a previously ingested object (parent table) from a payload object (child table) during a scenario execution.
+
+## Creating links
+
+### Modeling `1-1` and `N-1` links
+
+An example speaks louder than a long theoretical description: let's consider a data model with two tables (`transactions` and `accounts`), obtained by extending the example model of the previous page.
+
+We will create a `N-1` or "many to one" link between transactions and accounts.
+
+<Frame caption="Data model with two tables, still without an explicit link">
+  <img src="/images/docs/9c7a68e-Capture_decran_2024-05-29_a_13.37.33.png" />
+</Frame>
+
+The intention is fairly clear here: every transaction belongs to an account, and every account has multiple transactions. The relation can be "walked up" unambiguously by finding the (0 or 1) ingested parent account of a given transaction. The "joining key" is `transactions.account_id = accounts.object_id`.
+
+We will materialize this by creating a directed link starting from the transactions table.
+
+<Frame caption="Menu to create a new link">
+  <img src="/images/docs/77c73b2-Capture_decran_2024-05-29_a_13.42.00.png" />
+</Frame>
+
+You create a link by giving it a name (by default, the name of the target table is a good choice), choosing the fields in the parent and child table on which the join can be made. In this case, we select the base table (transactions) field `account_id` and the parent table field `object_id`.
+
+![](/images/docs/b09569b-Capture_decran_2024-05-29_a_13.43.11.png)
+
+<Info>
+  A link must point unambiguously from a child to a parent entity. That is why only fields marked as unique are eligible as "targets" of a link on the parent table. By default, the `object_id` field, that always exists, is always unique hence always a valid target.
+</Info>
+
+<Frame caption="Data model after link creation">
+  <img src="/images/docs/607395c-Capture_decran_2024-05-29_a_13.43.39.png" />
+</Frame>
+
+At this point, the data model is complete and ready for use. In the scenario builder, you will be able to access the status, balance (etc) of an ingested account object every time you want to take a decision on a transaction object.
+
+Of course, more complex links are possible. You can imagine having several layers of entities with directed links, and circular references are possible (e.g. an account corresponding to a virtual IBAN could have a parent account with the real IBAN).
+
+<Frame caption="Example of a more complex (but still pretty usual) data model">
+  <img src="/images/docs/a45466d-Capture_decran_2024-05-29_a_13.54.36.png" />
+</Frame>
+
+<Info>
+  Links are similar to database foreign keys, but they are not implemented as concret foreign keys. What this means is, in particular, that we will not reject an insertion on a table if it has a link to a parent table, but the parent table contains no object matching the id found in the child table linked field (e.g. in the example above, if no account exists for this `transaction.account_id`).
+</Info>
+
+### Modeling `1-N` links
+
+You cannot, and don't need to, create "one to many" links in the Marble data model (other than remarking that it is nothing else than a `N-1` link in the other direction).
+
+In particular, you will be able to compute aggregates on all transactions belonging to a given account without explicitly modeling a link for this.
+
+### Modeling `N-N` links
+
+Similarly, you cannot and don't need to model links of the "many to many" category.
+
+***
+
+* [Table of Contents](#)
+
+* * [The links structure](#the-links-structure)
+
+  * [Creating links](#creating-links)
+
+    * [Modeling `1-1` and `N-1` links](#modeling-1-1-and-n-1-links)
+    * [Modeling `1-N` links](#modeling-1-n-links)
+    * [Modeling `N-N` links](#modeling-n-n-links)

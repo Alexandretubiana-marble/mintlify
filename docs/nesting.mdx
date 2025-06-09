@@ -1,0 +1,39 @@
+---
+title: "Nesting"
+description: "Nesting allows you to combine several operations in a same condition"
+---
+
+[Suggest Edits](/edit/nesting)
+
+# Definition
+
+Nesting conditions allows you to combine multiple logical operations into a single rule by placing one condition inside another. This enables more complex and precise decision-making within a single evaluation flow.
+
+# Example
+
+Let’s say you want to build a rule that checks whether a user has spent more than €2,000 in the past hour.
+
+1. **Create the aggregate:** start by creating an [Aggregate variable](/docs/average) that returns the total amount of outgoing transactions made by the customer in the last hour.
+
+   <Frame caption="This aggregate will compute the cumulated amount spent by the customer in the last hour">
+     <img src="/images/docs/f36f88658eeae9dee1161e1b892f04347d69e93f895712aa7e59bf41d34e67f6-image.png" />
+   </Frame>
+
+2. **Add a nested condition:** in this example, we’ll assume you're calling the [Decision API](/reference/decision) before the [Ingestion API](/reference/ingestion), which is considered best practice. To include the amount of the current (triggering) transaction in the calculation, you’ll need to nest an additional condition. Click on your aggregate, then go to **Modeling → Open brackets**.
+
+   <Frame caption="Open brackets from the &#x22;Modeling&#x22; option">
+     <img src="/images/docs/0d900f39164afb4157164ce3549e2bb56cea3d2d5e8bcf8107a625ad270364ff-image.png" />
+   </Frame>
+
+3. **Include the triggering transaction:** with the brackets open, add your operator (in this case, "+") followed by the field representing the transaction amount. Your condition is now ready to evaluate the full context, including the current transaction.
+
+   <Frame caption="You now have a rule combining multiple operations">
+     <img src="/images/docs/1b89c7fac86856e0fe302261a826589c03d999df96823dbadfa9bd527632a2f7-image.png" />
+   </Frame>
+
+***
+
+* [Table of Contents](#)
+
+* * [Definition](#definition)
+  * [Example](#example)

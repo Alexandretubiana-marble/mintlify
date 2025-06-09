@@ -1,0 +1,20 @@
+---
+title: "IBAN hashing"
+description: "In an effort to minimize personally identifiable information (PII) treated in clear, we hash the beneficiary IBAN when you send a transfer. It is the first thing we do when we receive a clear IBAN, so we never store or pass around a clear IBAN."
+---
+
+Because of this, it is a valid option that you hash the beneficiary IBAN on your side before sending it, if you prefer to. Doing so is very easy, but it is critical that all IBANs are hashed in exactly the same way - or they could never be matched.
+
+If you want to send the beneficiary IBAN hashed, please follow exactly the steps below:
+
+* upper case the IBAN
+* remove all spaces (trailing or between groups of digits)
+* compute the SHA256 hash of the resulting string (15 to 34 characters, depending on the IBAN's country)
+* encode to hexadecimal string
+* send it as a string in place of the original IBAN (upper or lower case are both accepted)
+
+<Info>
+  the IBAN `FR7630006000011234567890189` should be sent as the hash `2847f6106ab6f0da11e73d5c896edc145fae3f8c1b04458a83bca2fe49a846e8`.
+
+  Computing the hash from the representation `FR76 3000 6000 0112 3456 7890 189` or `fr7630006000011234567890189` or `FR76 3000 6000 0112 3456 7890 189` will **not** work in practice (it will not be rejected by the API: there is no way to tell if a given slice of 32 bytes if the hash of a real string - though you are likely to end up with 0 overlap with other partner's beneficiary IBAN hashes, which will be visible).
+</Info>

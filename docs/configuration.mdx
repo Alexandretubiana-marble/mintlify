@@ -1,0 +1,68 @@
+---
+title: "Configuration"
+description: "Suggest Edits"
+---
+
+To get the best experience with the Case Manager, there are a few settings you should configure before using it in production.
+
+# Inboxes
+
+Inboxes are groups where your cases will be collected. You can create as many inboxes as needed to fit your review workflows.
+
+You can manage inbox settings from the **Settings → Inboxes** menu:
+
+* **Create a new inbox:** click the `Create new inbox` button at the top of the inbox list to add a new inbox. You can also create one directly from the Case Manager using the same button located below the inbox list.
+
+  <Frame caption="You can add as many inboxes as needed">
+    <img src="/images/docs/025f0a04eacae5d0d2e1a07f8404e95042cf2a602fd6b3d0bda8d6da43b43d47-image.png" />
+  </Frame>
+
+* **Add an escalation inbox:** select an inbox, then click `Update inbox` to choose an Escalation Inbox. This defines where cases will be redirected if you choose to escalate them from the Case Manager.
+
+  <Frame caption="Escalation inbox needs to be set up from the Settings menu">
+    <img src="/images/docs/343b79a365427e5c204ffad55a5e5c40ce1f012c2c4f9df923db963f93cbe4c4-image.png" />
+  </Frame>
+
+* **Add users to the inbox:** after selecting an inbox, use the**Members** panel at the bottom to manage its users. You can add users (as long as they’re already part of your Marble instance), remove them, or change their roles. Only members and admin of an inbox can see its content.
+
+  <Frame caption="As an inbox admin, you can add, edit, or remove users from that inbox.">
+    <img src="/images/docs/5e2bb9b7de23f1e0610995e8652e1763405f3ba309924c3e6a4e41615235c309-image.png" />
+  </Frame>
+
+*Common use case* :
+
+* Create a "level 1" inbox where a scenario sends any decision that is not "Approve"
+* Give access to this inbox to the whole team that is working on perimeter of the scenario
+* Create a "level 2" inbox and define it as the escalation for "level 1 inbox"
+* Give access to the "level 2" inbox to senior members and escalation team only
+
+That way, you've create the ability to escalate a case from the "Level 1" inbox were most team members are doing the first checks, to a "Level 2" inbox limited to senior investigators and managers.
+
+# Tags
+
+Tags help you identify and organize your cases. You can manage your tag list from **Settings → Tags**, where you can add new tags or modify existing ones—changing their names or colors.
+
+<Frame caption="Create the tags you need to identify your cases clearly.">
+  <img src="/images/docs/18dedc15d22e7412dd63b1d06e8313daccf863f1ba3b7945de175dbc93865002-image.png" />
+</Frame>
+
+# Data display
+
+You can use this section to choose the way your objects are displayed in the case manager.
+
+The Case manager allows you to explore data of objects related to your triggering object. You can customize this exploration to suit your needs by adjusting your preferences in **Settings → Dat display**:
+
+* **Show or hide fields:** use the toggles next to each field to choose which fields are visible during exploration.
+* **Reorder fields:** use the drag handle on the left to set the display order of fields in the Case manager.
+
+<Frame caption="Chose the fields to hide and the order of display">
+  <img src="/images/docs/ee774b31cfc4e8520441c8f0c10cb8887cf37368a00cd7dc3bbd8136160d1c6b-image.png" />
+</Frame>
+
+***
+
+* [Table of Contents](#)
+
+* * [Inboxes](#inboxes)
+  * [Tags](#tags)
+  * [Data display](#data-display)

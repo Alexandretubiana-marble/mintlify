@@ -1,0 +1,44 @@
+---
+title: "Setting up and using a blocking decision scenario"
+description: "Suggest Edits"
+---
+
+## Configure a blocking scenario
+
+The scenario should be set up with the **Block and Review** outcome (learn more about outcomes [here](/docs/decision-1)).
+
+Blocked decisions require a manual review within a case to ensure human oversight and maintain an audit trail.
+
+<Info>
+  You can configure a [workflow](/docs/introduction-5) to automatically attach every blocked decision to a case for review.
+</Info>
+
+## Manually review a blocked decision
+
+Any user of the organisation that is a member of the inbox may review blocked decisions contained in a case of that inbox.
+
+<Frame caption="blocked decisions inside a case">
+  <img src="/images/docs/0481460d54e59efcd03e5fab9d3c494927eb5872b10db53e4ad675394eb2cda9-image.png" />
+</Frame>
+
+<Frame caption="Review decision modal to keep an audit trace message">
+  <img src="/images/docs/c0aec9874efe067e29629753f0e50a1305ebbe9ef1550e00ccfe684caff3596a-image.png" />
+</Frame>
+
+When a blocked decision is reviewed, a [webhook](/docs/introduction-3) event is dispatched, letting any subscriber react to blocked decision reviews.
+
+## List all blocked decisions pending for reviews
+
+To avoid having unreviewed blocked decisions, you can view all pending blocked decisions in the decisions tab.
+
+<Frame caption="List all blocked decisions pending for reviews">
+  <img src="/images/docs/83b23609bef12c0cd5088489cac959a83b4adc54f8284d49a6a1477a9336063e-image.png" />
+</Frame>
+
+***
+
+* [Table of Contents](#)
+
+* * [Configure a blocking scenario](#configure-a-blocking-scenario)
+  * [Manually review a blocked decision](#manually-review-a-blocked-decision)
+  * [List all blocked decisions pending for reviews](#list-all-blocked-decisions-pending-for-reviews)

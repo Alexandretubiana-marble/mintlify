@@ -1,0 +1,128 @@
+---
+title: "Overview"
+description: "Suggest Edits"
+---
+
+# What is a pivot value
+
+## Context
+
+Marble users are free to define the data model used in the decision engine, as best fits their use case and internal data.
+
+While doing so, you will usually define links (similar to "foreign keys" in the language of databases). Links are always defined in the "one to one" or "many to one" direction, that is to say, a link is defined from an entity A to an entity B, so that there is either 0 or 1 of B for every A. (see previous pages).
+
+The typical data model we like to think of is made of
+
+* `transactions`
+* `accounts`
+* `companies`
+* `events`
+
+with the following links:
+
+* `transactions->accounts` (`transactions.account_id -> accounts.object_id`)
+* `accounts->companies` (`accounts.company_id -> companies.object_id`)
+* `events->companies` (`events.company_id -> companies.object_id`)
+
+<Info>
+  Examples will be in blue blocks such as this, based on the data model above.
+</Info>
+
+## Why a pivot value
+
+Scenarios are executed on an entity, for instance a transaction or an account in the example above. Decisions and cases are then naturally related to a given instance of this entity.
+
+A natural use case is to analyze events at the higher level, for instance analyze all alerts at the company level. In order to do so, you must be able to search and group decisions related to this common parent entity.
+
+<Info>
+  AML investigations are focusing on the account owner : we want to be able to search all the decisions relevant to a given company, whether the scenario was executed on a transaction, an account or the company object itself.
+</Info>
+
+By defining a pivot value for the objects on the data model, you create the grouping key that can be used to filter or group decisions as required.
+
+## Definition of a pivot
+
+A pivot is always defined relative to a base table from the data model. It can be defined in one of two ways:
+
+* a field from the base table. The payload's value for this field is used to compute the value of the pivot for a decision.
+* a link, or chain of links, moving up from the base table. The field used to compute the actual value of the pivot for a decision is then the foreign key of the last link in the chain (that is to say, the unique key on the table that is pointed to.
+
+Only string values can be used as pivot values, and only one pivot can be defined for every base entity - at least for now.
+
+Once a pivot has been defined for an entity, the value of the pivot will be automatically attached to every new decision from a scenario based on this entity. Note that the actual value of the pivot can be `null`.
+
+<Info>
+  A pivot on the `transaction` object could be defined as `transactions.partner_id` (a string field from the `transactions` entity), or alternatively as `transactions.account` or `transactions.account.company` (chains of links pointing from the `transactions` entity to the `accounts` or `companies` parents entity).
+</Info>
+
+# Applications using a pivot in Marble
+
+Once you have defined a pivot on an entity in your data model, you open the possibility to:
+
+* Search all decisions matching a given pivot value (e.g. searching all decisions on transactions or accounts for a given `company_id`)
+* See the most recent decisions with the same pivot value, on a decision details page
+* Set up a workflow to try and attach a new decision to an existing open case, related to the same pivot value (e.g. attach a new decision on a `transaction` to an open or investigating case containing decisions with the same pivot value `company_id`). See documentation on workflows.
+
+# How to create a pivot in practice
+
+A pivot is created from the data model edition page. Simply navigate to the graph view of your data model ([https://app.checkmarble.com/data/schema](https://app.checkmarble.com/data/schema), unless you are self-hosted). After having set up your tables and links, you can easily configure a pivot for any given base table by opening the options for this table and choosing the "create a pivot" option, as illustrated below.
+
+**Step by step:**
+
+<Frame caption="Start with a complete data model, including links">
+  <img src="/images/docs/2a44499-Capture_decran_2024-05-10_a_11.50.54.png" />
+</Frame>
+
+<Frame caption="Select &#x22;Create a pivot&#x22; on the base table">
+  <img src="/images/docs/967866a-Capture_decran_2024-05-10_a_11.51.03.png" />
+</Frame>
+
+<Frame caption="Select a field from the base table, or a chain of named links, to define a pivot">
+  <img src="/images/docs/3e12d8c-Capture_decran_2024-05-10_a_11.51.12.png" />
+</Frame>
+
+<Frame caption="A &#x22;view pivot details&#x22; button replaces the &#x22;Create a pivot&#x22; button in the table menu, that allows you to see visualize the pivot definition graphically.">
+  <img src="/images/docs/e7d93fa-Capture_decran_2024-05-10_a_11.51.26.png" />
+</Frame>
+
+Repeat the steps above for the other tables, in this case `accounts`and `companies`.
+
+<Check>
+  It may make sense to define a pivot on the table's `object_id` field itself (or whatever field is used on the last link defining the pivot), for the table that is used as a pivot entity.
+
+  For instance, in our example, defining a pivot for the `companies` table using the `object_id` field so that decisions on `companies` (if any) are grouped with decisions on `transactions` and `accounts`.
+</Check>
+
+# How to use a pivot in practice
+
+<Frame caption="See the pivot value on a decision, and use the link to...">
+  <img src="/images/docs/f0b3e30-Capture_decran_2024-05-10_a_12.00.39.png" />
+</Frame>
+
+<Frame caption="... filter all the decisions that share the same pivot value, whatever the scenario or base object.">
+  <img src="/images/docs/0204ef3-Capture_decran_2024-05-10_a_12.05.41.png" />
+</Frame>
+
+# Limitations
+
+* You can only create one pivot per table.
+* Pivots are (for now) create-only, so make sure to double check your input. You can contact us if you created a wrong pivot and want to fix it.
+* When a pivot is created for a table, the pivot value is stored on every new decision created thereafter, but not on decisions that had been taken previously.
+
+***
+
+* [Table of Contents](#)
+
+* * [What is a pivot value](#what-is-a-pivot-value)
+
+    * [Context](#context)
+    * [Why a pivot value](#why-a-pivot-value)
+    * [Definition of a pivot](#definition-of-a-pivot)
+
+  * [Applications using a pivot in Marble](#applications-using-a-pivot-in-marble)
+
+  * [How to create a pivot in practice](#how-to-create-a-pivot-in-practice)
+
+  * [How to use a pivot in practice](#how-to-use-a-pivot-in-practice)
+
+  * [Limitations](#limitations)

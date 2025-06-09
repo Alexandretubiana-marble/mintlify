@@ -1,0 +1,53 @@
+---
+title: "Date"
+description: "Compute a date"
+---
+
+[Suggest Edits](/edit/now-copy)
+
+# Definition
+
+Despite its name, the `Date` function operates on, and returns, timestamps. It is used to shift timestamps by an interval of seconds, minutes, hours or days, to the past or the future.
+
+The `Date` function comprises several essential components:
+
+* **Date**: The reference point upon which the function operates. It can either be a static date or a dynamic one, such as [Now](/docs/count)).
+* **Operation**: It involves either adding or subtracting a specific period of time.
+
+<Info>
+  Date comparison operations involve using comparison operators (like `<`, `>`) to determine the relationship between two dates. For example:
+
+  * `date1 < date2`: True if `date1` is before `date2`.
+  * `date1 > date2`: True if `date1` is after `date2`.
+
+  These operations help in determining the relative order of dates.
+</Info>
+
+# Example
+
+Let's say we aim to verify whether the transaction date falls within the past 7 days.
+
+1. **Select the Function**: Choose the "Date" function to compute the date from 7 days ago.
+
+   <Frame caption="Select the Date function in operand picker">
+     <img src="/images/docs/159f140-image.png" />
+   </Frame>
+
+2. **Create the date**: Use the dedicated modal to compute the date, using the [Now](/docs/count) function as the reference point
+
+   <Frame caption="Select the now reference and substract 7 days">
+     <img src="/images/docs/f58c3da-image.png" />
+   </Frame>
+
+3. **Save and View**: After saving, the date will be displayed in the builder
+
+   <Frame caption="Compare the transaction date to computed date">
+     <img src="/images/docs/837515b-image.png" />
+   </Frame>
+
+***
+
+* [Table of Contents](#)
+
+* * [Definition](#definition)
+  * [Example](#example)

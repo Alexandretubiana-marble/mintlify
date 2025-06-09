@@ -1,0 +1,65 @@
+---
+title: "Reviewing a sanction check"
+description: "Suggest Edits"
+---
+
+## The case manager
+
+A sanction check can only be reviewed from within a case (coming soon: review by API for headless usage of the sanction check feature). In order to act on sanction checks with possible hits, you should set up a workflow for the scenario that automatically sends every decision with certain outcomes to an inbox in the case manager (see the [workflows page](/docs/introduction-5)).
+
+Within the case manager, sanction checks appear next to the rule executions on decisions that contain one. When the sanction check is in pending review state, it is displayed along with a button that invites the analyst to review it.
+
+<Frame caption="example sanction check rule">
+  <img src="/images/docs/a513eeeae7d440bbd06a2a00bc3d1dbe19d5fbfb73ae87ecbafb32b186a26509-Capture_decran_2025-02-20_a_15.13.03.png" />
+</Frame>
+
+## Reviewing matches in a sanction check
+
+A sanction check to review contains one or more possible hits. The possible hits should always be manually reviewed before rejecting a transaction, because most of them are false positives.
+
+In the detailed page of a sanction check to review in the case manager, all matches are displayed in the ["follow the money" format](https://www.opensanctions.org/docs/entities/) used by Opensanctions.
+
+Possible matches are reviewed one by one (by changing their status to "no match" or "confirmed match" and leaving a comment. If one hit is marked as confirmed, then all the remaining ones are marked as "skipped".
+
+Additionally, the analysts can upload any files on the sanction check that were provided by the end user to allow the investigation.
+
+### Whitelisting
+
+Some beneficiaries - anyone with a name close to the name of a person under sanctions - will create false positives. The challenge is that they will repeatedly create false positives, unless they are whitelisted.
+
+This is done at the match review step, and only if a counterparty id selector has been configured on the rule (and a non-empty value is read when the decision is created).
+
+A whitelist entry is composed of the pair `(counterparty_id, opensanctions_entity_id)`. For instance, a scenario may whitelist the pair `(FR7630006000011234567890189, Q7747)`.
+
+Any whitelisted entities will be automatically ignored during the screening of future sanction checks that use the same value of the counterparty identifier.
+
+Note that sanction whitelists are not limited in time.
+
+## Business rules related to sanction checks
+
+Certain rules are applied on a decision that contains a sanction check:
+
+* if the decision is in `"block_and_review"` state, it cannot be review to the final state `"approved"` as long as the sanction check is pending review, or if it is a confirmed hit
+
+Moreover, a sanction check:
+
+* cannot be reviewed (it can only be refined) if the list of returned entities is partial, meaning the search returned more possible hits than the maximum configured at the org level (see [Setting up a sanction check rule](/docs/setting-up-a-sanction-check-rule))
+* changes its global status automatically after one of its matches is marked as a real hit, or they have all been reviewed as false positives
+
+<Frame caption="restrictions on decision review status">
+  <img src="/images/docs/4076cb1d5bfa985e54e5078720b1e845dba6d26b38976fc401f455180600c7a1-Capture_decran_2025-02-20_a_15.19.33.png" />
+</Frame>
+
+## Audit trace
+
+A complete audit trace of sanction check reviews is kept, including which user reviewed a given match and when.
+
+***
+
+* [Table of Contents](#)
+
+* * [The case manager](#the-case-manager)
+  * [Reviewing matches in a sanction check](#reviewing-matches-in-a-sanction-check)
+    * [Whitelisting](#whitelisting)
+  * [Business rules related to sanction checks](#business-rules-related-to-sanction-checks)
+  * [Audit trace](#audit-trace)

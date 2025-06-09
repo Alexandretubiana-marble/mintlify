@@ -1,0 +1,91 @@
+---
+title: "Available events and webhooks format"
+description: "Suggest Edits"
+---
+
+# Available events
+
+All webhook events we handle have the format `{object_type}.{event_action}`.
+
+Below is the full list of events we currently handle with webhooks:
+
+* `case.updated`
+* `case.created_manually`
+* `case.created_from_workflow`
+* `case.decisions_updated`
+* `case.tags_updated`
+* `case.comment_created`
+* `case.file_created` (one or more files created)
+* `case.rule_snooze_created`
+* `case.decision_reviewed`
+* `decision.created`
+
+This list will be progressively expanded as we add new webhooks options. Please feel free to reach out to us if one specific type of webhook is critical to a workflow you want to implement, and we will discuss with you if we can prioritize it.
+
+# Webhooks format
+
+## Slim webhooks
+
+For now, Marble only sends "slim" webhooks, that is to say webhooks that do not contain the full payload of the object on which the event happened. Upon reception of a webhook, it is then your responsibility to call our API to read any additional data required to handle the webhook.
+
+The advantages are that implementing new types of webhooks is faster for us to deliver, and that no personally identifiable data transits the servers of our sub-contractor for webhooks sending.
+
+The inconvenient is, of course, that you must call our API to act on most of the webhooks.
+
+## Webhook payload content
+
+The webhooks body payload is of the following format:
+
+<CodeGroup>
+  ```json json
+  {
+    "content": {
+      "{object_type}": {
+        "id": "d4e6aae1-d005-4734-9294-a85d16dd1683"
+      }
+    },
+    "timestamp": "2024-07-25T13:43:47.888170937Z",
+    "type": "{object_type}.{event_action}"
+  }
+  ```
+</CodeGroup>
+
+We are keeping the option open to add more metadata (at the root level) and details on the event (in the "content") later.
+
+In some cases, several object ids may be contained in the webhook content. For instance, the `case.decision_reviewed` webhook contains
+
+<CodeGroup>
+  ```json json
+  {
+    "content": {
+      "case": {
+        "id": "c455154b-3e6c-4a1b-92b2-96f005c9b130"
+      },
+      "decision": {
+        "id": "54624b1f-1396-43e7-9c3a-58dc08ab3449"
+      }
+    },
+    "timestamp": "2024-09-16T11:13:30.973546+02:00",
+    "type": "case.decision_reviewed"
+  }
+  ```
+</CodeGroup>
+
+## Webhook header content
+
+The webhooks received contain 2 specific headers, alongside the regular http headers:
+
+* `x-convoy-idempotency-key`: unique identifier of the webhook, can be used for idempotent handling of the webhook
+* `webhooks-signature`: concatenation of a timestamp and a signature `t={unix_ts},v1={signature_1}`. For instance, the header could take the value `t=1721915034,v1=lWR1+4ro2KOi55lTYx8mJaT4YhtvR2WU1c5lI50Lyrw=`. Optionally, more signatures can be appended (separated by a comma) to allow seamless secret rotation (see next section).
+
+***
+
+* [Table of Contents](#)
+
+* * [Available events](#available-events)
+
+  * [Webhooks format](#webhooks-format)
+
+    * [Slim webhooks](#slim-webhooks)
+    * [Webhook payload content](#webhook-payload-content)
+    * [Webhook header content](#webhook-header-content)

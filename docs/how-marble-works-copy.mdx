@@ -1,0 +1,65 @@
+---
+title: "How Marble works"
+description: "Suggest Edits"
+---
+
+Marble allows anyone to make a `decision` based on a number of predefined `rules` organized in `scenarios`.
+
+To achieve this, we rely on a few key components: a custom `data model` , an `admin panel`, a `Data Ingestion API`, and a `Decision API`
+
+# 1. Define your Data Model
+
+The `data model` is a description of all the objects you’ll want to use in Marble. It includes their fields as well as how they relate to each others.
+
+Defining this data model makes it easy to create rules in the admin panel, and allows a strong validation of data sent to our APIs
+
+Marble does not impose a specific data model for its clients, but our recommended starting point is to work with `users`, `companies`, `accounts`, `events` and `transactions` objects. See the [data model introduction](/docs/introduction-2)
+
+<Frame caption="Example of a data model">
+  <img src="/images/docs/73bdca9-Frame_2471.png" />
+</Frame>
+
+# 2. Create scenarios and rules
+
+From our admin panel, your team will be able to create as many scenarios as needed, each containing a set of rules.
+
+When a scenario runs, we evaluate each of its rules, and increment the scenario’s risk score accordingly.
+
+The scenario’s final score determines a single outcome for the decision: Approve, Review, or Decline.
+
+Rules can use data from multiple sources: the decision API’s payload, your historical database, our manually-defined lists input from the admin panel.
+
+<Frame caption="A simple scenario">
+  <img src="/images/docs/4021f84-small-Rule_example_1.png" />
+</Frame>
+
+# 3. Send historical data using the Data Ingestion API
+
+Complex decisions require a large amount of data points, which would be impractical to send at the same time as the decision request.
+
+A typical example is comparing a `transaction`'s amount against the average of past transactions’ amounts for the same user.
+
+Marble can store any number of objects (provided that they conform to your data model) in its warehouse, and those objects can be accessed directly in your rules & scenarios.
+
+The `Data Ingestion API` is the API that lets users push data to Marble. It features a single endpoint per object in your data model: `POST /data_ingestion/{object}`
+
+When receiving an object, Marble will `UPSERT` it into its warehouse.
+
+The Data Ingestion API documentation is located [here](/reference/intro-data-ingestion)
+
+# 4. Make decisions using the Decision API
+
+You’re now one API call away from creating decisions: send us an object that conforms to your data model using a `POST /decisions`, and we’ll execute the relevant scenario and return a decision object.
+
+From here, you can check if the decision’s outcome is Approve, Review or Decline, and you’ll have access to all the details of the evaluated rules and scenario, so that you can take appropriate actions.
+
+The Decision API documentation is located [here](/reference/intro-decision)
+
+***
+
+* [Table of Contents](#)
+
+* * [1. Define your Data Model](#1-define-your-data-model)
+  * [2. Create scenarios and rules](#2-create-scenarios-and-rules)
+  * [3. Send historical data using the Data Ingestion API](#3-send-historical-data-using-the-data-ingestion-api)
+  * [4. Make decisions using the Decision API](#4-make-decisions-using-the-decision-api)

@@ -1,0 +1,63 @@
+---
+title: "Trigger"
+description: "Suggest Edits"
+---
+
+# Trigger conditions
+
+On the Trigger tab, you visualize the trigger object picked at scenario creation. You can add a [Formula](/docs/formula) to validate in order to fine tune when the scenario should execute.
+
+<Frame caption="Trigger formula example">
+  <img src="/images/docs/aee819d2cc1799d81df28a61a17e4289036e9399ec6edf3ce65416a2fa7d2e72-image.png" />
+</Frame>
+
+# How to run this scenario ?
+
+## API Execution
+
+All scenarios can be executed to request a decision by API. The scenario\_id necessary for this is displayed in the scenario page's Trigger tab, and should be added to your payload when calling the [Decision API](/reference/post_decisions).
+
+![](/images/docs/6cbdb331034068a8c2f4c2a0a10276472ee2f48940d014072f5665f75c2cb239-Get_scenario_ID.png)
+
+## Batch execution
+
+If you do not need a real-time decision, and rather want to run your scenario on all your data matching the [Trigger conditions](#trigger-conditions), you can schedule recurrent executions or launch it manually:
+
+### Scheduled execution
+
+On the draft version of your scenario, you can configure the schedule on which it should be run:
+
+1. Tick the checkbox *Run this scenario on a schedule* under **Batch Execution**
+
+2. Choose whether you want to run your scenario:
+
+   1. Daily at a specific time
+   2. Weekly on a specific day
+   3. Monthly on a specific day number
+
+<Frame caption="Set the schedule of your recurrent executions">
+  <img src="/images/docs/cb6fedcab2872309f28174ac7fed0a9a58badf2c83186d538cb5e3c5985330e2-image.png" />
+</Frame>
+
+Note that you can see the past executions of your scheduled scenario by clicking on the *Schedule executions* button from the **Batch** section of the scenario.
+
+<Frame caption="See your scenario's past executions">
+  <img src="/images/docs/7a6b5a98b79500b6d3ebd0a9fc28f75eb3c0cbed86fe1f57dd6aa5e3f4d6a757-image.png" />
+</Frame>
+
+### Manual execution
+
+Additionally, you can also run your scenario manually, which can be useful to make sure your scenario works well during your test phase or to trigger decisions on past data after creating a scenario for example.
+
+To do so, just click the *Launch now* button on the**Batch** section of the scenario (screenshot above).
+
+***
+
+* [Table of Contents](#)
+
+* * [Trigger conditions](#trigger-conditions)
+
+  * [How to run this scenario ?](#how-to-run-this-scenario-)
+
+    * [API Execution](#api-execution)
+    * [Batch execution](#batch-execution)

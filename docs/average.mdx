@@ -1,0 +1,109 @@
+---
+title: "Aggregate variable"
+description: "Function that computes aggregates on your ingested data"
+---
+
+[Suggest Edits](/edit/average)
+
+# Definition
+
+A variable is built with several components:
+
+* **Name**: A label displayed in the builder to identify the variable
+* **Function**: The method used to process and combine (aggregate) the selected data
+* **Field**: The specific data field used to perform the computation (sum, average...)
+* **Optional Filter(s)**: List of criteria used to select a relevant subset of your data
+
+### List of supported functions and their descriptions:
+
+| Function       | Description                                    | Default if no rows found |
+| -------------- | ---------------------------------------------- | ------------------------ |
+| Average        | Calculates the mean value of a set of numbers. | NULL                     |
+| Count          | Counts the total number of items.              | 0                        |
+| Count distinct | Counts the number of unique items.             | 0                        |
+| Max            | Finds the highest value.                       | NULL                     |
+| Min            | Finds the lowest value.                        | NULL                     |
+| Sum            | Adds up all the values.                        | 0                        |
+
+# Example
+
+Suppose we want to check if the average payout transaction over the last 7 days exceeds €15,000. Here’s how we can achieve this:
+
+1. **Select the Function:** Choose the "Average" function to calculate the mean value of the payout transactions.
+
+<Frame caption="Select the average function in operand picker">
+  <img src="/images/docs/d650197-image.png" />
+</Frame>
+
+2. **Choose a name for the variable**: it does not impact how it's computed, but will help make your rule more readable in the builder
+3. **Choose an aggregation function**: the type of aggregation that you want to compute
+4. **Choose an entity and field to aggregate on**: Choose the target field on which you want to aggregate. You will be able to add filters on this table's field in the following step
+5. **Add filters**: Add the relevant filters that you want to filter on, on the target field table.
+
+<Frame caption="Average of last week's payout transactions">
+  <img src="/images/docs/5d7c8cc-image.png" />
+</Frame>
+
+6. **Save and View:** After saving, the variable will be displayed in the builder, showing the specified condition.
+
+![](/images/docs/bfe1aef-image.png)
+
+# Filters
+
+## Available options
+
+Filters work similarly to comparison operators in the formula, but with some limitations specific to how they are used.
+
+They work in the context of a *target table*, that is to say the table (or data model entity) whose field we want to aggregate.
+
+* The left-hand field *must* be a reference to a field from the *target table*, while the right-hand field can take any value allowed in the builder (except nested aggregate variables)
+
+* Most of the operators from the ruile builder are available in aggregates filters. You can still use operators like `>`, `=`,`<` etc, as well as the `is in list` and `is not in list` operators.
+
+  * **Numeric operators:** `>`, `=`,`<` etc
+  * **List operators:** `is in list` and `is not in list`
+  * **Empty checks:** `is empy` and `is not empty`
+  * **Text operators:** `starts with`, `ends with` and `is similar to`
+    <Info>
+      The `is similar to` operator works the same way as the *String similarity* function in the rule builder. For a detailed walkthrough, see [String similarity](/docs/string-similarity-scoring-copy).
+    </Info>
+
+## Necessity of using filters
+
+It is almost always important to specify a sufficient set of filters in the variable, so that the aggregation can be computed quickly. Marble will make sure to index the values as best as possible to ensure a quick computation, but an aggregate that averages over all values in the database is bound to be slow, and may lead to critically slow response times and/or timeouts.
+
+See below an anti-pattern and an improvement on it.
+
+<Frame caption="Anti-pattern: this aggregate will be too slow to compute. It is not specific to a customer, and not time-bounded.">
+  <img src="/images/docs/53b6d51-Capture_decran_2024-06-03_a_14.14.03.png" />
+</Frame>
+
+<Frame caption="Possible improvement: filter by date and account_id">
+  <img src="/images/docs/76e9c5c-Capture_decran_2024-06-03_a_14.18.18.png" />
+</Frame>
+
+## Example
+
+Let’s say we’d like to check if the creditor name, indicated by the emitter of a transfer, matches at least one the aliases registered by our customer.
+
+1. **Create an aggregate:** create a count aggregate, that will count aliases' object IDs.
+2. **Compare to creditor name:** use the `similar to`operator to compare the aliases full name with the transaction creditor name. Here, we will prefer the « bag of words » (see [String similarity](/docs/string-similarity-scoring-copy#token-set-ratio)) comparison with a high sensitivity
+3. **Set the hit condition:** here, we want the rule to be triggered if no matches are found, so we select the `=`operator with value 0.
+
+Here is a video walkthrough to help you build this type of rules:
+
+[YouTube video player](https://www.youtube.com/embed/gTIO_3bsCPg?si=hSV5CS68weAbdSXK)
+
+***
+
+* [Table of Contents](#)
+
+* * [Definition](#definition)
+
+  * [Example](#example)
+
+  * [Filters](#filters)
+
+    * [Available options](#available-options)
+    * [Necessity of using filters](#necessity-of-using-filters)
+    * [Example](#example-1)

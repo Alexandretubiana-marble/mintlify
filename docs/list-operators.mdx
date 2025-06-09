@@ -1,0 +1,46 @@
+---
+title: "List operators"
+description: "Suggest Edits"
+---
+
+[Lists](/docs/lists-in-scenario-builder) are useful when combined with specific [Operators](/docs/operator):
+
+* **contains any of**: Checks if any of the list elements are present in the string.
+
+  * `"elem" contains any of ["el", "abc"]` is `true` because `"elem"` contains `"el"`
+  * `"elem" contains any of ["element", "abc"]` is `false` because `"el"` doesn't contain `"elemn"` or `"abc"`
+
+* **does not contain any of**: Checks if none of the list elements are present in the string.
+  * returns the opposite of the above evaluation
+
+* **is in**: Checks if the specified element is present in the list.
+
+  * `"elem" is in ["element", "abc"]` is `false` because `"elem"` is not an element of the list
+  * `"elem" contains any of ["elem", "abc"]` is `true` because `"elem"` is an element of the list
+
+* **not in**: Checks if the specified element is not present in the list.
+  * returns the opposite of the above evaluation
+
+| Operator                    | Left operand | Right operand   |
+| --------------------------- | ------------ | --------------- |
+| **contains any of**         | string       | List of strings |
+| **does not contain any of** | string       | List of strings |
+| **is in**                   | string       | List of strings |
+| **not in**                  | string       | List of strings |
+
+<Warning>
+  The **contains any of**, **does not contain any of** operators are not case sensitive, while the **is in** and **not in** operators are case sensitive.
+</Warning>
+
+# Examples
+
+1. Check if a value `is in` a list
+
+<Frame caption="Check name is in EDES database">
+  <img src="/images/docs/8364c19-image.png" />
+</Frame>
+
+***
+
+* [Table of Contents](#)
+* * [Examples](#examples)

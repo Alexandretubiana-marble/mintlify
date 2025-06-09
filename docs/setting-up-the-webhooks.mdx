@@ -1,0 +1,36 @@
+---
+title: "Setting up the webhooks"
+description: "Suggest Edits"
+---
+
+You can set up the webhook endpoints from the settings page, as an admin user.
+
+To do so, you will at least need an endpoint. You should preferably use an https url to deliver your webhooks.
+
+<Warning>
+  The endpoint URL you configure must be reachable when you configure a new endpoint. A GET request will be sent to test its reachability. It is OK if the request returns a 4XX status, but the endpoint creation will fail if the request fails.
+</Warning>
+
+Additionally, you can select which of the available webhook event types you want to deliver to this endpoint (by default: send all events), and choose a timeout duration for your endpoint (any webhook delivery that has not responded after this duration will be retried).
+
+Once the endpoint is set up, you can read the endpoints secret value in the details panel. You will need this to verify incoming webhooks (see the [receiving webhooks](/docs/receiving-webhooks) section). Store it somewhere safe.
+
+You can also delete an existing webhook endpoint from the details page.
+
+***
+
+<Frame caption="Empty state webhooks">
+  <img src="/images/docs/6ea9159-Capture_decran_2024-07-25_a_22.00.08.png" />
+</Frame>
+
+***
+
+<Frame caption="set up a new webhook endpoint">
+  <img src="/images/docs/bb1a8c1-Capture_decran_2024-07-25_a_22.00.37.png" />
+</Frame>
+
+***
+
+<Frame caption="webhook endpoint details">
+  <img src="/images/docs/19ebd55-Capture_decran_2024-07-25_a_22.01.24.png" />
+</Frame>

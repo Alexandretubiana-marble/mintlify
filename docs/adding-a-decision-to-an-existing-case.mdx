@@ -1,0 +1,24 @@
+---
+title: "Adding a decision to an existing case"
+description: "Suggest Edits"
+---
+
+One of the available workflows attempts to add a decision to an existing case. This is done in order to try and minimize the number of distinct cases opened for decisions that ultimately refer to the same user/customer/entity.
+
+The workflow is configured with a scenario, a list of decision outcomes that trigger the workflow, and an inbox id in which to search or create the case.
+
+In detail, it works as follows:
+
+* every time a decision is created for this scenario, matching the eligible outcomes,
+
+* list all the cases in status `open` or `investigating` in the target inbox, that contain *at least* one decision with the same [pivot value]() as the trigger decision
+
+* count the distinct pivot values involved in decisions contained in each case
+
+* try to add the decision to the best matching case out of this list, with the following priority order:
+
+  * prefer cases with the least number of distinct pivot values involved (in particular, prefer cases that involve only this one pivot value, ie cases that are all related to the same end user/account/customer/other.
+  * break ties by preferring cases in `open` status over `investigating` status
+  * break remaining ties by choosing the most recently created case
+
+* if no case matches, create a new case in the target inbox

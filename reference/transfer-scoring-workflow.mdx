@@ -1,0 +1,44 @@
+---
+title: "Overview"
+---
+
+# The transfer scoring flow
+
+## Send a transfer and request a score
+
+You are mainly going to be using the [POST transfer endpoint](/reference/post_transfers).
+
+You need to call it with a valid transfer data payload (see below for details in input validation). By default, it will compute a risk score for this transfer, but you can optionally opt out of this by setting the optional `skip_score` boolean parameter to `true`. Remember that you are required to synchronize **all of your transfers**, though you decide which ones you want to score.
+
+The API returns an id for the transfer thus synchronized, which you can later use to [retrieve the transfer](/reference/get_transfers-transfer-id), or [request a (new) score on it](/reference/post_transfers-transfer-id-score).
+
+You can also [look up a transfer by your internal id](/reference/get_transfers), if you are in doubt it has already been sent.
+
+## Send a feedback on a transfer
+
+If you identify that a transfer was fraudulent, or if it seems sufficiently suspicious to you, please update its status using [the following endpoint](/reference/patch_transfers-transfer-id). You can also do it through the web console that Marble opens for you. Please let us know as soon as you identify a risk, as the network's efficiency relies on it.
+
+# Data format
+
+When you synchronize a transfer to Marble and request a score, we perform certain input validation steps which we detail here.
+
+All string fields are case insensitive.
+
+## Mandatory data
+
+* `beneficiary_bic`: the 8 or 11 character BIC of the transfer beneficiary. Must be alphanumeric.
+* `beneficiary_iban`: if sent clear: 15 to 34 character (excluding spaces) string containing the beneficiary IBAN. May contain spaces, otherwise alphanumeric only. See [here](https://dash.readme.com/project/checkmarble/v1.0.0/refs/iban-hashing) about the possibility to send it pre-hashed.
+* `currency`: ISO3 currency code
+* `sender_account_id`: unique identifier of the sender account in your system. Please do not send the raw IBAN. Typically a uuid. Max 50 characters.
+* `sender_bic`: the 8 or 11 character BIC of the transfer beneficiary. Must be alphanumeric.
+* `transfer_id`: unique identifier of the transfer in your system. Typically a uuid. Max 50 characters.
+* `transfer_requested_at`: RFC3339 format timestamp where the transfer was requested. Format `YYYY-MM-DDThh:mm:ss[.sss]Z`. Max nanosecond precision, though in practice truncating to seconds will work fine.
+* `value`: Integer. Value of the transfer in minor currency units (cents).
+
+## Optional data
+
+* `beneficiary_name`: Name of the counterpart beneficiary as indicated by the sender. Max 140 chars.
+* `label`: Label indicated by the sender. Max 140 chars.
+* `sender_device`: Type of the device used by the sender to request the transfer. Max 140 chars.
+* `sender_ip`: IPV4 or IPV6 IP address of the sender when requesting the transfer. Eg `192.0.2.1` or `2001:db8::68`
+* `timezone`: Only accepts `"Europe/Paris"` if non-empty for now. Likely to be extended in the future.

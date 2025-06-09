@@ -1,0 +1,219 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "What is Marble?",
+  "colors": {
+    "primary": "#5a50fa",
+    "light": "#5a50fa",
+    "dark": "#5a50fa"
+  },
+  "favicon": "/9852c0a-small-Capture_decran_2022-11-17_a_14.42.25.png",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "docs/what-is-marble-copy",
+              "docs/opensource-copy",
+              "docs/use-cases-copy",
+              "docs/how-marble-works-copy",
+              "docs/security-copy"
+            ]
+          },
+          {
+            "group": "Getting started",
+            "pages": [
+              "docs/implementing-marble-at-my-company-copy",
+              "docs/implementing-marble-at-my-company-copy-copy",
+              "docs/implementing-marble-at-my-company-copy-copy-copy",
+              "docs/1-proof-of-concept-phase-copy",
+              "docs/2-first-integration-copy"
+            ]
+          },
+          {
+            "group": "Data model edition and data ingestion",
+            "pages": [
+              "docs/introduction-2",
+              {
+                "group": "Data model edition",
+                "pages": [
+                  "docs/data-model-edition",
+                  "docs/create-a-table-or-entity",
+                  "docs/create-fields-in-a-table",
+                  "docs/editing-a-field-in-a-table",
+                  "docs/create-links-between-tables",
+                  "docs/enumerated-values",
+                  "docs/table-view-and-graph-view"
+                ]
+              },
+              {
+                "group": "Advanced usage guide",
+                "pages": [
+                  "docs/pivot-values-1"
+                ]
+              },
+              "docs/ingesting-data",
+              "docs/data-migrations",
+              "docs/example-data-model"
+            ]
+          },
+          {
+            "group": "Scenarios",
+            "pages": [
+              "docs/executing-a-scenario",
+              "docs/introduction-copy",
+              {
+                "group": "Scenario edit",
+                "pages": [
+                  "docs/scenario-edit",
+                  "docs/introduction-1",
+                  "docs/trigger",
+                  "docs/rule",
+                  "docs/decision-1",
+                  {
+                    "group": "Formula",
+                    "pages": [
+                      "docs/formula",
+                      {
+                        "group": "Operand",
+                        "pages": [
+                          "docs/operand-picker",
+                          "docs/constants",
+                          "docs/fields",
+                          "docs/lists-in-scenario-builder",
+                          {
+                            "group": "Functions",
+                            "pages": [
+                              "docs/functions",
+                              "docs/average",
+                              "docs/string-similarity-scoring-copy",
+                              "docs/now-copy",
+                              "docs/count"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "Operator",
+                        "pages": [
+                          "docs/operator",
+                          "docs/date-operators",
+                          "docs/list-operators"
+                        ]
+                      },
+                      "docs/nesting"
+                    ]
+                  }
+                ]
+              },
+              "docs/versioning"
+            ]
+          },
+          {
+            "group": "Lists",
+            "pages": [
+              "docs/introduction-4",
+              "docs/manage-rules"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "docs/introduction-5",
+              "docs/manage-lists-copy",
+              "docs/adding-a-decision-to-an-existing-case",
+              "docs/string-templating"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "docs/introduction-3",
+              "docs/setting-up-the-webhooks",
+              "docs/available-events-and-webhooks-format",
+              "docs/receiving-webhooks"
+            ]
+          },
+          {
+            "group": "Case Manager",
+            "pages": [
+              "docs/overview",
+              "docs/rule-snoozes",
+              {
+                "group": "Blocking review",
+                "pages": [
+                  "docs/introduction-8",
+                  "docs/setting-up-and-using-a-blocking-decision-scenario"
+                ]
+              },
+              "docs/configuration"
+            ]
+          },
+          {
+            "group": "SETTINGS",
+            "pages": [
+              "docs/roles"
+            ]
+          },
+          {
+            "group": "Sanction checks",
+            "pages": [
+              "docs/introduction-9",
+              "docs/setting-up-a-sanction-check-rule",
+              "docs/creating-decisions-with-a-sanction-check",
+              "docs/reviewing-a-sanction-check",
+              "docs/screening-refine"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Marble decision engine API",
+            "pages": [
+              "reference/intro-getting-started",
+              {
+                "group": "Ingestion",
+                "pages": [
+                  "reference/introduction-data-ingestion"
+                ]
+              },
+              {
+                "group": "Decision",
+                "pages": [
+                  "reference/introduction-decision",
+                  "reference/ressource-definition"
+                ]
+              },
+              {
+                "group": "ScheduledExecutions",
+                "pages": [
+                  "reference/get_scheduled-executions"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Transfercheck API",
+            "pages": [
+              "reference/transfer-scoring-workflow",
+              {
+                "group": "Transfers",
+                "pages": [
+                  "reference/transfer-scoring-workflow",
+                  "reference/iban-hashing"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": "/images/88a82d5-small-Logo-Icon.png"
+}

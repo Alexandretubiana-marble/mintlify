@@ -1,0 +1,12 @@
+---
+title: "Overview"
+description: "The Data Ingestion API lets you feed the Marble database with copies of any object your risk team would need in their rules (See )."
+---
+
+Whenever you `POST` an object to the API:
+
+* We'll check that it matches the data model (see [data model](/docs/introduction)).
+* If the object does not exist, we'll **create** it.
+* If the object already exists, we'll **update** it, keeping only the latest version.
+
+Note that we will not check relational constraints. This means that we will accept an object containing a foreign key (for example, a `transaction` with a `user_id` field), even if there is no child object having that ID (no `user` has that same `id` in our DB when we receive the `transaction`).

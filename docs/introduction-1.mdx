@@ -1,0 +1,15 @@
+---
+title: "Introduction"
+description: "Suggest Edits"
+---
+
+Scenarios are at the core of the Marble mental model.
+
+A Scenario is composed of:
+
+1. **Trigger Object**: The central object that initiates the decision-making process. Provided as a payload when requesting a decision.
+2. **Trigger Conditions**: A set of conditions that, if evaluated to true, mark the scenario as relevant for the payload.
+3. **Rules**: All evaluated using the trigger object payload as input. Each results in a score, from which a total score is calculated.
+4. **Decision conditions**: A set of thresholds that are compared to the score. They determine outcome category of the decision.
+
+Scenarios are versioned to track changes over time.
