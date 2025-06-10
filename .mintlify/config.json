@@ -1,0 +1,9 @@
+{
+  "root": ".",
+  "structure": [
+    {
+      "name": "Introduction",
+      "pages": ["README.md"]
+    }
+  ]
+}
